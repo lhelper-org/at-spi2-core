@@ -59,6 +59,7 @@ at_spi_conf = configuration_data()
 at_spi_conf.set_quoted('ATK_VERSION', atspi_version)
 at_spi_conf.set_quoted('GETTEXT_PACKAGE', meson.project_name())
 
+atk_visibility_cflags = []
 # Symbol visibility
 if get_option('default_library') != 'static'
   if host_system == 'windows'
@@ -71,6 +72,12 @@ if get_option('default_library') != 'static'
     at_spi_conf.set('_ATK_EXTERN', '__attribute__((visibility("default"))) extern')
     test_cflags += ['-fvisibility=hidden']
   endif
+else
+  # if _ATK_EXTERN is not set it will be defined to 'extern'
+  # in atkversion.h
+  at_spi_conf.set('ATK_STATIC_COMPILATION', '1')
+  atk_visibility_cflags += '-DATK_STATIC_COMPILATION'
+  test_cflags += '-DATK_STATIC_COMPILATION'
 endif
 
 # Check all compiler flags
