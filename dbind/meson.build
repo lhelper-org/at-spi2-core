@@ -5,7 +5,6 @@ dbind_sources = [
 
 dbind_dep = declare_dependency(sources: dbind_sources,
                                include_directories: root_inc,
-                               compile_args: [ '-DG_LOG_DOMAIN="dbind"' ],
                                dependencies: [ libdbus_dep, glib_dep ])
 
 test('dbind-test',
